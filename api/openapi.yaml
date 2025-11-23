@@ -71,7 +71,7 @@ paths:
       description: Place a new order in the store
       operationId: placeOrder
       security:
-        - api_key: ["create_order"]
+        - api_key: []
       requestBody:
         content:
           application/json:
@@ -86,10 +86,6 @@ paths:
                 $ref: '#/components/schemas/Order'
         '400':
           description: Invalid input
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
         '422':
           description: Validation exception
 components:
@@ -100,12 +96,6 @@ components:
         id:
           type: string
           examples: ["0000-0000-0000-0000"]
-        total:
-          type: number
-          examples: [90.0]
-        discounts:
-          type: number
-          examples: [10.0]
         items:
           type: array
           items:
@@ -128,7 +118,6 @@ components:
         couponCode:
           type: string
           description: Optional promo code applied to the order
-          examples: ["HAPPYHRS"]
         items:
           type: array
           items:
@@ -158,25 +147,9 @@ components:
           type: number
           format: float
           description: Selling price
-          examples: [13.3]
         category:
           type: string
           examples: [Waffle]
-        image:
-          type: object
-          properties:
-            thumbnail:
-              type: string
-              examples: ["https://orderfoodonline.deno.dev/public/images/image-waffle-thumbnail.jpg"]
-            mobile:
-              type: string
-              examples: ["https://orderfoodonline.deno.dev/public/images/image-waffle-mobile.jpg"]
-            tablet:
-              type: string
-              examples: ["https://orderfoodonline.deno.dev/public/images/image-waffle-tablet.jpg"]
-            desktop:
-              type: string
-              examples: ["https://orderfoodonline.deno.dev/public/images/image-waffle-desktop.jpg"]
     ApiResponse:
       type: object
       properties:
