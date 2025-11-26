@@ -17,20 +17,23 @@ A Go REST API to manage products and place orders with promo code validation.
 
 ## Run
 
+```bash
+git clone https://github.com/reachnasa/kart-challenge.git
+cd cmd/server
 go mod tidy
 go run main.go
 
 Server runs at: http://localhost:8080
 
-API Examples
+## API Examples
 
 List products
 curl http://localhost:8080/api/product
 
-Get product by ID
+Get product by 
 curl http://localhost:8080/api/product/1
 
-Place an order with promo codes
+Place an order
 curl -X POST http://localhost:8080/api/order \
 -H "Content-Type: application/json" \
 -H "api_key: apitest" \
@@ -43,11 +46,7 @@ curl -X POST http://localhost:8080/api/order \
 Health check
 curl http://localhost:8080/health
 
-
 Notes
-
 Uses goroutines & channels for concurrent promo code validation
-
 Stops searching once a promo code is found in 2 files
-
 Designed to handle large promo files efficiently
