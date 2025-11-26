@@ -6,6 +6,7 @@ A Go REST API to manage products and place orders with promo code validation.
 
 ## Features
 
+- Health check: curl http://localhost:8080/health
 - List all products: `/api/product`  
 - Get product by ID: `/api/product/{id}`  
 - Place an order: `/api/order` with promo codes  
@@ -24,29 +25,10 @@ go mod tidy
 go run main.go
 
 Server runs at: http://localhost:8080
+```
+---
 
-## API Examples
-
-List products
-curl http://localhost:8080/api/product
-
-Get product by 
-curl http://localhost:8080/api/product/1
-
-Place an order
-curl -X POST http://localhost:8080/api/order \
--H "Content-Type: application/json" \
--H "api_key: apitest" \
--d '{
-  "productId": "1",
-  "quantity": 2,
-  "promoCode": "HAPPYHRS"
-}'
-
-Health check
-curl http://localhost:8080/health
-
-Notes
-Uses goroutines & channels for concurrent promo code validation
-Stops searching once a promo code is found in 2 files
-Designed to handle large promo files efficiently
+## Notes
+- Uses goroutines & channels for concurrent promo code validation
+- Stops searching once a promo code is found in 2 files
+- Designed to handle large promo files efficiently
