@@ -1,56 +1,53 @@
-# Advanced Challenge
+# Food API Server
 
-Build an API server implementing our OpenAPI spec for food ordering API in [Go](https://go.dev).\
-You can find our [API Documentation](https://orderfoodonline.deno.dev/public/openapi.html) here.
+A Go REST API to manage products and place orders with promo code validation.
 
-API documentation is based on [OpenAPI3.1](https://swagger.io/specification/v3/) specification.
-You can also find spec file [here](https://orderfoodonline.deno.dev/public/openapi.yaml).
+---
 
-> The API immplementation example available to you at orderfoodonline.deno.dev/api is simplified and doesn't handle some edge cases intentionally.
-> Use your best judgement to build a Robust API server.
+## Features
 
-## Basic Requirements
+- List all products: `/api/product`  
+- Get product by ID: `/api/product/{id}`  
+- Place an order: `/api/order` with promo codes  
+- Promo code rules:
+  - 8-10 characters long  
+  - Must appear in at least 2 of 3 promo files (`data/couponbase1`, `couponbase2`, `couponbase3`)  
 
-- Implement all APIs described in the OpenAPI specification
-- Conform to the OpenAPI specification as close to as possible
-- Implement all features our [demo API server](https://orderfoodonline.deno.dev) has implemented
-- Validate promo code according to promo code validation logic described below
+---
 
-### Promo Code Validation
+## Run
 
-You will find three big files containing random text in this repositotory.\
-A promo code is valid if the following rules apply:
+go mod tidy
+go run main.go
 
-1. Must be a string of length between 8 and 10 characters
-2. It can be found in **at least two** files
+Server runs at: http://localhost:8080
 
-> Files containing valid coupons are couponbase1.gz, couponbase2.gz and couponbase3.gz
+API Examples
 
-You can download the files from here
+List products
+curl http://localhost:8080/api/product
 
-[file 1](https://orderfoodonline-files.s3.ap-southeast-2.amazonaws.com/couponbase1.gz)
-[file 2](https://orderfoodonline-files.s3.ap-southeast-2.amazonaws.com/couponbase2.gz)
-[file 3](https://orderfoodonline-files.s3.ap-southeast-2.amazonaws.com/couponbase3.gz)
+Get product by ID
+curl http://localhost:8080/api/product/1
 
-**Example Promo Codes**
+Place an order with promo codes
+curl -X POST http://localhost:8080/api/order \
+-H "Content-Type: application/json" \
+-H "api_key: apitest" \
+-d '{
+  "productId": "1",
+  "quantity": 2,
+  "promoCode": "HAPPYHRS"
+}'
 
-Valid promo codes
+Health check
+curl http://localhost:8080/health
 
-- HAPPYHRS
-- FIFTYOFF
 
-Invalid promo codes
+Notes
 
-- SUPER100
+Uses goroutines & channels for concurrent promo code validation
 
-> [!TIP]
-> it should be noted that there are more valid and invalid promo codes that those shown above.
+Stops searching once a promo code is found in 2 files
 
-## Getting Started
-
-You might need to configure Git LFS to clone this repository\
-https://github.com/oolio-group/kart-challenge/tree/advanced-challenge/backend-challenge
-
-1. Use this repository as a template and create a new repository in your account
-2. Start coding
-3. Share your repository
+Designed to handle large promo files efficiently
