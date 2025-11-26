@@ -32,3 +32,4 @@ Server runs at: http://localhost:8080
 - Uses goroutines & channels for concurrent promo code validation
 - Stops searching once a promo code is found in 2 files
 - Designed to handle large promo files efficiently
+- Large coupon data files (`couponbase1`, `couponbase2`, `couponbase3`) are stored using **Git LFS** due to their size
